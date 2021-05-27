@@ -12,6 +12,7 @@ using namespace chrono;
 
 int main()
 {
+	srand(time(nullptr));
 	thread t1, t2,t3;
 
 	Cocoroach c1(1);
@@ -24,31 +25,14 @@ int main()
 	Cocoroach c8(8);
 	Cocoroach c9(9);
 	Cocoroach c10(10);
-
-	Race r1(1);
-	r1.AddInRace(c1);
-	r1.AddInRace(c2);
-	r1.AddInRace(c3);
-
-
-	Race r2(2);
-	r2.AddInRace(c4);
-	r2.AddInRace(c5);
-	r1.AddInRace(c6);
+	vector<Cocoroach>v1 = { c1,c2,c3 };
+	vector<Cocoroach>v2 = { c4,c5,c6 };
+	Race r1(1,v1);
+	Race r2(2,v2);
 
 
-	Race r3(3);
-	r2.AddInRace(c7);
-	r1.AddInRace(c8);
-	r1.AddInRace(c9);
-
-	t1 = thread(Race::Start, ref(r1));
-	t2 = thread(Race::Start, ref(r2));
-	//t3 = thread(Race::Start, ref(r3));
-
-
-	t1.join();
-	t2.join();
-
+	r1.getThreadReference()->join();
+	r2.getThreadReference()->join();
+	
 	return 0;
 }

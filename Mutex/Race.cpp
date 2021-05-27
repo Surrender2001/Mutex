@@ -5,6 +5,12 @@ Race::Race(int id)
     this->id = id;
 }
 
+Race::Race(int id, vector<Cocoroach>vec):Race(id)
+{
+    Vec.swap(vec);
+    Thread = thread(Start, ref(*this));
+}
+
 void Race::AddInRace(Cocoroach c1)
 {
 	Vec.push_back(c1);
@@ -15,6 +21,7 @@ mutex Race::mtx;
 void Race::Start(Race& race)
 {
     srand(time(nullptr));
+    
     clock_t t0 = clock();
     vector<int> vec(race.Vec.size());
     vector<int>done(race.Vec.size());
@@ -30,8 +37,10 @@ void Race::Start(Race& race)
         
         for (int i = 0; i < vec.size();++i)
         {
-            this_thread::sleep_for(seconds(rand() %  1 + 1));
+            
+            this_thread::sleep_for(seconds(rand() %  3 + 1));
             distance = rand() % 50 + 10;
+            
             if (vec[i] < 100)
             {
                 
@@ -58,6 +67,11 @@ void Race::Start(Race& race)
         
     }
     
+}
+
+thread* Race::getThreadReference()
+{
+    return &Thread;
 }
 
 
